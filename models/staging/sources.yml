@@ -5,12 +5,12 @@ sources:
     database: engaged-shade-471817-p9
     schema: olist_raw
     tables:
-        - name: sellers
         - name: customers
-        - name: order_reviews
-        - name: products
-        - name: order_payments
-        - name: order_items
         - name: geolocation
-        - name: product_category_name
+        - name: order_items
+        - name: order_payments
+        - name: order_reviews
         - name: orders
+        - name: product_category_name
+        - name: products
+        - name: sellers
