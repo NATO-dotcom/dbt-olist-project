@@ -14,8 +14,8 @@ renamed as (
         review_score,
         review_comment_title,
         review_comment_message,
-        review_creation_date,
-        review_answer_timestamp
+        safe_cast(review_creation_date as timestamp) as review_created_at,
+        safe_cast(review_answer_timestamp as timestamp) as review_answered_at
 
     from source
 

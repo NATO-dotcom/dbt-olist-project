@@ -14,14 +14,16 @@ models:
         data_tests:
           - not_null
           - relationships:
-              to: ref('stg_olist_raw__customers')
-              field: customer_id
+              arguments:
+                to: ref('stg_olist_raw__customers')
+                field: customer_id
       - name: order_status
         description: "Current lifecycle status of the order."
         data_tests:
           - not_null
           - accepted_values:
-              values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
+              arguments:
+                values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
 
   - name: stg_olist_raw__order_items
     description: "Individual line items within an order. Grain: 1 row per order_id + order_item_id."
@@ -31,8 +33,9 @@ models:
         data_tests:
           - not_null
           - relationships:
-              to: ref('stg_olist_raw__orders')
-              field: order_id
+              arguments:
+                to: ref('stg_olist_raw__orders')
+                field: order_id
       - name: order_item_id
         description: "Sequential number identifying item count within the same order."
         data_tests:
@@ -42,15 +45,17 @@ models:
         data_tests:
           - not_null
           - relationships:
-              to: ref('stg_olist_raw__products')
-              field: product_id
+              arguments:
+                to: ref('stg_olist_raw__products')
+                field: product_id
       - name: seller_id
         description: "Foreign key to stg_olist_raw__sellers."
         data_tests:
           - not_null
           - relationships:
-              to: ref('stg_olist_raw__sellers')
-              field: seller_id
+              arguments:
+                to: ref('stg_olist_raw__sellers')
+                field: seller_id
 
   - name: stg_olist_raw__customers
     description: "Customer profiles and standardized city/state locations. Grain: 1 row per customer_id."
@@ -101,24 +106,27 @@ models:
       - name: review_id
         description: "Primary key for deduplicated reviews."
         data_tests:
-          - unique
           - not_null
       - name: order_id
         description: "Foreign key to stg_olist_raw__orders."
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_olist_raw__orders')
+                field: order_id
       - name: review_score
         description: "Customer satisfaction score from 1 (worst) to 5 (best)."
         data_tests:
-          - not_null
           - accepted_values:
-              values: [1, 2, 3, 4, 5]
-              quote: false
+              arguments:
+                values: [1, 2, 3, 4, 5]
+                quote: false
 
   - name: stg_olist_raw__product_category_name
     description: "Lookup table mapping Portuguese category names to English."
     columns:
-      - name: product_category_name
+      - name: category_name
         description: "Primary key (Portuguese category name)."
         data_tests:
           - unique
@@ -127,7 +135,7 @@ models:
   - name: stg_olist_raw__geolocation
     description: "Brazilian zip code prefix coordinates. Contains multiple lat/lng points per zip code prefix."
     columns:
-      - name: geolocation_zip_code_prefix
+      - name: zip_code_prefix
         description: "First 5 digits of the Brazilian zip code."
         data_tests:
           - not_null

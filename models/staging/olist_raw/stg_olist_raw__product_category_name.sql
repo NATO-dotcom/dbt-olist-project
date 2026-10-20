@@ -9,8 +9,8 @@ source as (
 renamed as (
 
     select
-        string_field_0,
-        string_field_1
+        string_field_0 as category_name,
+        string_field_1 as category_name_en
 
     from source
 
